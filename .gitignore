@@ -1,0 +1,19 @@
+# Dossiers volumineux à ignorer immédiatement (performance)
+venv/
+.venv/
+data/
+__pycache__/
+
+# Ignorer tout par défaut
+*
+
+# Autoriser la traversée des répertoires
+!*/
+
+# Fichiers autorisés
+!.gitignore
+!*.pptx
+!report1.md
+!*report1*.md
+!*Report_1*.md
+!*Rapport_1*.md
