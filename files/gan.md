@@ -18,7 +18,7 @@ We chose *Generative Adversarial Nets* because we wanted to understand how a com
 
 ## 2. What is the paper's main idea?
 
-The paper introduces a way to generate data using two neural networks trained against each other. The generator, G, takes random noise and tries to create realistic samples, while the discriminator, D, decides whether an example is real or generated. The authors compare this to counterfeiters trying to fool the police (p. 1). They describe the process as a minimax game (Equation 1, p. 3). In the ideal case, the generated distribution matches the real one and D cannot do better than guessing with probability 0.5 (Theorem 1, p. 5). Both networks can be trained with backpropagation, without the Markov-chain sampling required by some earlier models. Experiments on MNIST, TFD and CIFAR-10 show promising, though not equally convincing, results (Table 1 and Figure 2, pp. 6–7).
+The paper introduces a way to generate data using two neural networks trained against each other. The generator, G, takes random noise and tries to create realistic samples, while the discriminator, D, decides whether an example is real or generated. The authors compare this to counterfeiters trying to fool the police (p. 1). They describe the process as a minimax game (Equation 1, p. 3). In the ideal case, the generated distribution matches the real one and D cannot do better than guessing with probability 0.5 (Theorem 1, p. 5). Both networks can be trained with backpropagation, without the Markov-chain sampling required by some earlier models (Section 6, p. 6). Experiments on MNIST, TFD and CIFAR-10 show promising, though not equally convincing, results (Table 1 and Figure 2, pp. 6–7).
 
 ## 3. What problem does the paper address and what contributions does it announce?
 
@@ -54,25 +54,25 @@ Table 1 (p. 6) reports the following Parzen-window log-likelihood estimates; hig
 | Model | MNIST | TFD |
 |---|---:|---:|
 | DBN | 138 ± 2 | 1909 ± 66 |
-| Stacked CAE | 121 ± 1.6 | 2110 ± 50 |
+| Stacked CAE | 121 ± 1.6 | **2110 ± 50** |
 | Deep GSN | 214 ± 1.1 | 1890 ± 29 |
 | **GAN** | **225 ± 2** | **2057 ± 26** |
 
 The GAN obtains the best MNIST result, but not the best TFD result: Stacked CAE scores 2110 ± 50. We therefore agree with the authors' more limited claim that adversarial training is competitive, not universally superior. Figure 2 is convincing on MNIST: the digits are recognizable and the nearest training examples resemble them without being identical. The TFD faces are less sharp, and the CIFAR-10 images often look more like textures than identifiable objects.
 
 <figure style="margin:0; break-inside: avoid; page-break-inside: avoid;">
-<img src="https://dennybritz.com/img/deep-learning-most-important-ideas/early-gan-images.png" alt="Figure 2 of the paper" width="340">
+<img src="figures/fig2.png" alt="Figure 2 of the paper" width="300">
 <figcaption><em>Figure 2 (p. 7): a) MNIST, b) TFD, c) CIFAR-10 (fully connected model), d) CIFAR-10 (convolutional discriminator, "deconvolutional" generator).</em></figcaption>
 </figure>
 
 Figure 3 shows a gradual change between generated digits as the input vector changes. That suggests the generator learned a continuous representation rather than storing a fixed list of images.
 
 <figure style="margin:0; break-inside: avoid; page-break-inside: avoid;">
-<img src="https://tyami.github.io/assets/images/post/DL/2020-10-17-GAN-DCGAN-theory/2020-10-17-GAN-DCGAN-theory-5-GAN-interpolation.png" alt="Figure 3 of the paper" width="340">
+<img src="figures/fig3.png" alt="Figure 3 of the paper" width="340">
 <figcaption><em>Figure 3 (p. 7): digits obtained by linear interpolation between coordinates in z space.</em></figcaption>
 </figure>
 
-The authors acknowledge that GANs do not give an explicit density `p_g(x)`, that G and D need to remain balanced, and that the theoretical proof assumes an ideal non-parametric model (Sections 4 and 6). They also warn about Parzen estimates in high dimensions. We would add that the paper does not report variability across random seeds or a systematic hyperparameter study, and CIFAR-10 has no numerical score. Later work addressed some open questions through conditional GANs, DCGAN and WGAN (Section 7; Mirza & Osindero, 2014; Radford et al., 2015; Arjovsky et al., 2017).
+The authors acknowledge that GANs do not give an explicit density `p_g(x)`, that G and D need to remain balanced, and that the theoretical proof assumes an ideal non-parametric model (Sections 4 and 6). They also warn about Parzen estimates in high dimensions (Section 5, p. 6). We would add that the paper does not report variability across random seeds or a systematic hyperparameter study, and CIFAR-10 has no numerical score. Later work addressed some open questions through conditional GANs, DCGAN and WGAN (Section 7; Mirza & Osindero, 2014; Radford et al., 2015; Arjovsky et al., 2017).
 
 ## 7. Will we be able to reproduce the results?
 
@@ -91,7 +91,7 @@ The paper appeared at NIPS 2014 (now NeurIPS), a CORE A* conference. Google Scho
 <figcaption><em>Google Scholar screenshot (retrieved on 11 November 2026).</em></figcaption>
 </figure>
 
-We examined two later papers. Radford et al. (2015) developed DCGAN, using convolutional architectures to improve GAN training and image generation; Google Scholar listed 22,748 citations on 15 November 2026. Theis, van den Oord and Bethge (2016), with 1,590 citations, criticized Parzen-window evaluations and showed why they can be misleading in high dimensions. One work extends the original GAN, while the other questions a metric used in its experiments.
+We examined two later papers. Radford et al. (2015) developed DCGAN, using convolutional architectures to improve GAN training and image generation; Google Scholar listed 22,748 citations on 15 November 2026. Theis, van den Oord and Bethge (2016), with 1,590 citations, criticized Parzen-window evaluations and showed why they can be misleading in high dimensions. One work extends the original GAN, while the other questions a metric used in its experiments. Papers citing the GAN paper work in fields such as image generation and translation, text generation, video prediction and the evaluation of generative models.
 
 The paper remains relevant even though other image-generation methods have advanced. Dhariwal and Nichol (2021), for instance, reported diffusion-model results stronger than leading GANs of that period, including FID 2.97 on ImageNet 128 × 128. Still, the original adversarial training idea remains important for understanding later research.
 
@@ -102,3 +102,13 @@ We found the paper fairly clear for a nine-page article. The counterfeiters-and-
 ## Use of a large language model (LLM)
 
 We used an LLM to help understand difficult English and mathematical terms, find related papers, organize notes, prepare drafts and improve the English translation and formatting. We reviewed the technical claims and edited the text using the original paper before submitting the report.
+
+## References
+
+- Arjovsky, M., Chintala, S., & Bottou, L. (2017). *Wasserstein Generative Adversarial Networks*. Proceedings of the 34th International Conference on Machine Learning (ICML 2017).
+- Dhariwal, P., & Nichol, A. (2021). *Diffusion Models Beat GANs on Image Synthesis*. Advances in Neural Information Processing Systems 34 (NeurIPS 2021).
+- Goodfellow, I. J., Pouget-Abadie, J., Mirza, M., Xu, B., Warde-Farley, D., Ozair, S., Courville, A., & Bengio, Y. (2014). *Generative Adversarial Nets*. Advances in Neural Information Processing Systems 27 (NIPS 2014). <https://proceedings.neurips.cc/paper_files/paper/2014/file/f033ed80deb0234979a61f95710dbe25-Paper.pdf>
+- Mirza, M., & Osindero, S. (2014). *Conditional Generative Adversarial Nets*. arXiv preprint arXiv:1411.1784.
+- Pennington, J., Socher, R., & Manning, C. D. (2014). *GloVe: Global Vectors for Word Representation*. Proceedings of the 2014 Conference on Empirical Methods in Natural Language Processing (EMNLP 2014).
+- Radford, A., Metz, L., & Chintala, S. (2015). *Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks*. arXiv preprint arXiv:1511.06434.
+- Theis, L., van den Oord, A., & Bethge, M. (2016). *A Note on the Evaluation of Generative Models*. International Conference on Learning Representations (ICLR 2016).
