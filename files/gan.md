@@ -1,9 +1,12 @@
 
 <style>
-h2 { break-after: avoid; page-break-after: avoid; }
-figure { break-inside: avoid; page-break-inside: avoid; }
+  body { font-size: 10.5pt; line-height: 1.42; }
+  h1 { margin-bottom: 0.4em; }
+  h2 { break-after: avoid; page-break-after: avoid; margin-top: 1em; margin-bottom: 0.35em; }
+  p, ul, ol { margin-top: 0.3em; margin-bottom: 0.5em; }
+  figure, table { break-inside: avoid; page-break-inside: avoid; }
+  .page-break { page-break-before: always; break-before: page; }
 </style>
-
 # Report 1 – Software Engineering Seminar (157119)
 
 **Paper studied:** Goodfellow, I. J., Pouget-Abadie, J., Mirza, M., Xu, B., Warde-Farley, D., Ozair, S., Courville, A., Bengio, Y. (2014). *Generative Adversarial Nets*. Advances in Neural Information Processing Systems 27 (NIPS 2014). <https://proceedings.neurips.cc/paper_files/paper/2014/file/f033ed80deb0234979a61f95710dbe25-Paper.pdf>
@@ -20,9 +23,11 @@ We chose *Generative Adversarial Nets* because we wanted to understand how a com
 
 The paper introduces a way to generate data using two neural networks trained against each other. The generator, G, takes random noise and tries to create realistic samples, while the discriminator, D, decides whether an example is real or generated. The authors compare this to counterfeiters trying to fool the police (p. 1). They describe the process as a minimax game (Equation 1, p. 3). In the ideal case, the generated distribution matches the real one and D cannot do better than guessing with probability 0.5 (Theorem 1, p. 5). Both networks can be trained with backpropagation, without the Markov-chain sampling required by some earlier models (Section 6, p. 6). Experiments on MNIST, TFD and CIFAR-10 show promising, though not equally convincing, results (Table 1 and Figure 2, pp. 6–7).
 
+
 ## 3. What problem does the paper address and what contributions does it announce?
 
 Earlier deep generative models often required probability calculations that were difficult to evaluate, including approximations based on Markov chains. The authors also note that techniques such as ReLU and maxout, successful in discriminative networks, were harder to exploit in generative models (Introduction, p. 1). GANs offer another way to train a generator: instead of calculating the data likelihood directly, they use a discriminator's feedback.
+<div style="page-break-before: always;"></div>
 
 The paper does not provide a numbered contribution list, but we identified these contributions:
 
@@ -46,6 +51,8 @@ The experiments use MNIST handwritten digits, the Toronto Face Database (TFD), a
 The generator uses ReLU and sigmoid activations, with random noise supplied at the input. The discriminator uses maxout and dropout. Algorithm 1 alternates updates of D and G, with `k = 1` and momentum in the experiments. The authors recommend training G to maximize `log D(G(z))` because minimizing `log(1 − D(G(z)))` can lead to weak gradients early on (pp. 3–4).
 
 For quantitative evaluation, they fit Gaussian Parzen windows to generated examples and estimate test-set log-likelihood, selecting σ by cross-validation. MNIST and TFD are evaluated numerically, but CIFAR-10 is assessed visually. Figures 2 and 3 (p. 7) show generated samples, nearest training examples and transitions between points in the noise space.
+
+<div style="page-break-before: always;"></div>
 
 ## 6. Do the results support the claims? What are the limitations?
 
@@ -74,6 +81,8 @@ Figure 3 shows a gradual change between generated digits as the input vector cha
 
 The authors acknowledge that GANs do not give an explicit density `p_g(x)`, that G and D need to remain balanced, and that the theoretical proof assumes an ideal non-parametric model (Sections 4 and 6). They also warn about Parzen estimates in high dimensions (Section 5, p. 6). We would add that the paper does not report variability across random seeds or a systematic hyperparameter study, and CIFAR-10 has no numerical score. Later work addressed some open questions through conditional GANs, DCGAN and WGAN (Section 7; Mirza & Osindero, 2014; Radford et al., 2015; Arjovsky et al., 2017).
 
+<div style="page-break-before: always;"></div>
+
 ## 7. Will we be able to reproduce the results?
 
 We plan to reproduce the MNIST result from Table 1: **225 ± 2**. The authors' code is linked in footnote 1 (p. 1): https://github.com/goodfeli/adversarial. When we checked it on 15 November 2026, its latest commit was dated 6 June 2018, while the main implementation dated back to 2014. It relies on old libraries such as Theano and Pylearn2, so we will probably implement the model in PyTorch. The repository's `parzen_ll.py` script should help us reproduce the evaluation.
@@ -94,6 +103,8 @@ The paper appeared at NIPS 2014 (now NeurIPS), a CORE A* conference. Google Scho
 We examined two later papers. Radford et al. (2015) developed DCGAN, using convolutional architectures to improve GAN training and image generation; Google Scholar listed 22,748 citations on 15 November 2026. Theis, van den Oord and Bethge (2016), with 1,590 citations, criticized Parzen-window evaluations and showed why they can be misleading in high dimensions. One work extends the original GAN, while the other questions a metric used in its experiments. Papers citing the GAN paper work in fields such as image generation and translation, text generation, video prediction and the evaluation of generative models.
 
 The paper remains relevant even though other image-generation methods have advanced. Dhariwal and Nichol (2021), for instance, reported diffusion-model results stronger than leading GANs of that period, including FID 2.97 on ImageNet 128 × 128. Still, the original adversarial training idea remains important for understanding later research.
+
+<div style="page-break-before: always;"></div>
 
 ## 9. Reflection: what do we think of the quality of the writing?
 
